@@ -19,7 +19,7 @@
         </li>
         <li>
             <label for="mdp1">Mot de passe :</label>
-            <input type="password" name="password" id="mdp1" pattern="(?=^.{6,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" onkeyup="validateMdp2()" title = "Le mot de passe doit être composé de 6 à 8 caractères alphanumériques." required placeholder="Entrer un mot de passe."/>
+            <input type="password" name="password" id="mdp1" pattern=".{6,8}" onkeyup="validateMdp2()" title = "Le mot de passe doit être composé de 6 à 8 caractères alphanumériques." required placeholder="Entrer un mot de passe."/>
             <span class="form_hint">De 6 à 8 caractères alphanumériques.</span>
         </li>
         <li>
@@ -65,7 +65,7 @@
             <input type= "radio" name="sexe" value="femme"> Féminin
         </li>
         <li>
-            <label for="birthdate">Date de naissance:</label>
+            <label for="birthdate">Date de naissance :</label>
             <input type="date" name="birthdate" id="birthdate" placeholder="JJ/MM/AAAA" required onchange="computeAge()"/>
             <script>
                 computeAge = function(e) {
@@ -86,7 +86,7 @@
             <span class="form_hint">Format attendu "JJ/MM/AAAA"</span>
         </li>
         <li>
-            <label for="age">Age:</label>
+            <label for="age">Age :</label>
             <input type="number" name="age" id="age" disabled/>
         </li>
         <li>
@@ -111,11 +111,11 @@
             </script>
         </li>
         <li>
-            <label for="color">Couleur préférée:</label>
+            <label for="color">Couleur préférée :</label>
             <input type="color" id="color" name="color" value="#00000">
         </li>
          <li>
-                     <label for="profilepicfile">Photo de profil:</label>
+                     <label for="profilepicfile">Photo de profil :</label>
                      <input type="file" id="profilepicfile" onchange="loadProfilePic(this)"/>
                      <!-- l'input profilepic va contenir le chemin vers l'image sur l'ordinateur du client -->
                      <!-- on ne veut pas envoyer cette info avec le formulaire, donc il n'y a pas d'attribut name -->

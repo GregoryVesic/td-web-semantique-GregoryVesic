@@ -19,12 +19,12 @@
         </li>
         <li>
             <label for="mdp1">Mot de passe :</label>
-            <input type="password" name="password" id="mdp1" pattern=".{6,8}" onkeyup="validateMdp2()" title = "Le mot de passe doit être composé de 6 à 8 caractères alphanumériques." required placeholder="Entrer un mot de passe."/>
+            <input type="password" name="password" id="mdp1" pattern=".{6,8}" onkeyup="validateMdp2()" title = "Le mot de passe doit être composé de 6 à 8 caractères alphanumériques." required placeholder="Entrez un mot de passe."/>
             <span class="form_hint">De 6 à 8 caractères alphanumériques.</span>
         </li>
         <li>
             <label for="mdp2">Confirmez mot de passe :</label>
-            <input type="password" id="mdp2" required onkeyup="validateMdp2()" required placeholder="Confirmer le mot de passe."/>
+            <input type="password" id="mdp2" required onkeyup="validateMdp2()" required placeholder="Confirmez le mot de passe."/>
             <span class="form_hint">Les mots de passes doivent être égaux.</span>
             <script>
                 validateMdp2 = function(e) {
@@ -42,22 +42,22 @@
         </li>
         <li>
             <label for="prenom">Nom :</label>
-            <input type="text" name="nom" id="nom" required placeholder="Entrer un nom."/>
+            <input type="text" name="nom" id="nom" required placeholder="Entrez un nom."/>
             <!-- ajouter à input l'attribut qui donne une indication grisée (placeholder) -->
         </li>
         <li>
             <label for="prenom">Prénom :</label>
-            <input type="text" name="prenom" id="prenom" required placeholder="Entrer un prénom."/>
+            <input type="text" name="prenom" id="prenom" required placeholder="Entrez un prénom."/>
             <!-- ajouter à input l'attribut qui donne une indication grisée (placeholder) -->
         <li>
             <label for="tel">Téléphone :</label>
-            <input type="tel" name="tel" id="tel" placeholder="Entrez un Numéro (optionnel)"/>
+            <input type="tel" name="tel" id="tel" placeholder="Entrez un numéro de tel. (optionnel)"/>
             <!-- non obligatoire -->
 
         </li>
         <li>
             <label for="url">Site Web :</label>
-            <input type="url" name="url" id="url" placeholder="Entrez un Site (optionnel)" />
+            <input type="url" name="url" id="url" placeholder="Entrez un nom de domaine (optionnel)" />
             <!-- non obligatoire -->
         </li>
         <li>
@@ -77,7 +77,14 @@
                         console.log(Date.parse(document.getElementById("birthdate").valueAsDate));
                         console.log(new Date(0).getYear());
                         console.log(new Date(65572346585).getYear());
+                        console.log(Date.now() - Date.parse(document.getElementById("birthdate").valueAsDate));
                         // modifier ici la valeur de l'élément age
+                        var date= newDate();
+                        date = (Date.now() - Date.parse(document.getElementById("birthdate").valueAsDate));
+                        //date.toUTCString();
+                        date.getYear();
+                        document.getElementById("age").innerHtml= date;
+                        //Age.setValue(date);
                     } catch(e) {
                         // supprimez ici la valeur de l'élément age
                     }
@@ -91,7 +98,7 @@
         </li>
         <li>
             <label for="ville">Ville :</label>
-            <input type="text" name="ville" id="ville" placeholder="Entrez une Ville (optionnel)" />
+            <input type="text" name="ville" id="ville" placeholder="Entrez une ville (optionnel)" />
             <!-- non obligatoire -->
 
         </li>

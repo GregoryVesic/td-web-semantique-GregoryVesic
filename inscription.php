@@ -79,12 +79,9 @@
                         console.log(new Date(65572346585).getYear());
                         console.log(Date.now() - Date.parse(document.getElementById("birthdate").valueAsDate));
                         // modifier ici la valeur de l'élément age
-                        var date= newDate();
+                        var date= new Date();
                         date = (Date.now() - Date.parse(document.getElementById("birthdate").valueAsDate));
-                        //date.toUTCString();
-                        date.getYear();
-                        document.getElementById("age").innerHtml= date;
-                        //Age.setValue(date);
+                        document.getElementById("age").value= parseInt(date/ 364 /24 /60 /60 /1000);
                     } catch(e) {
                         // supprimez ici la valeur de l'élément age
                     }
@@ -140,7 +137,7 @@
                              var canvas = document.getElementById("preview");
                              var ctx = canvas.getContext("2d");
                              // on réinitialise le canvas: on l'efface, et déclare sa largeur et hauteur à 0
-                             ctx.setFillColor("white");
+                             //ctx.setFillColor("white");
                              ctx.fillRect(0,0,canvas.width,canvas.height);
                              canvas.width=0;
                              canvas.height=0;

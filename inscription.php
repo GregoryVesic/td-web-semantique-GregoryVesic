@@ -57,7 +57,7 @@
         </li>
         <li>
             <label for="url">Site Web :</label>
-            <input type="url" name="url" id="url" placeholder="Entrez un nom de domaine (optionnel)" />
+            <input type="website" name="website" id="url" placeholder="Entrez un nom de domaine (optionnel)" />
             <!-- non obligatoire -->
         </li>
         <li>
@@ -84,6 +84,7 @@
                         document.getElementById("age").value= parseInt(date/ 364 /24 /60 /60 /1000);
                     } catch(e) {
                         // supprimez ici la valeur de l'élément age
+                        document.getElementById("age").value= null;
                     }
                 }
             </script>
@@ -101,22 +102,12 @@
         </li>
         <li>
             <label for="taille">Taille :</label>
-            <input type="range" class="range" value="15" max="250" min="0" step="0.01">
-            <!-- C'EST CASSE -->
-            <output>--</output>
-            <script>
-                /$(function() {
-                    $('.range').next().text('--');
-                    $('.range').on('input', function() {
-                        var $set = $(this).val();
-                        $(this).next().text($set);
-                    });
-                });/
-            </script>
+            <input type="range" name ="taille" id="taille" value =".60" max="2.50" min="0" step="0.01">
+            <output></output>
         </li>
         <li>
             <label for="color">Couleur préférée :</label>
-            <input type="color" id="color" name="color" value="#00000">
+            <input type="color" id="couleur" name="couleur" value="#00000">
         </li>
          <li>
                      <label for="profilepicfile">Photo de profil :</label>

@@ -89,15 +89,18 @@ try {
                 // on récupère la ligne qui nous intéresse avec $sql->fetch(),
                 // Retourne la ligne suivante en tant qu'un tableau indexé par le nom des colonnes
                 //$result = $dbh->fetch();
-                //print_r($result);
 
                 // et on enregistre les données dans la session avec $_SESSION["..."]=...
+                $_SESSION['id'] = $_POST['id'];
                 $_SESSION['email'] = $_POST['email'];
                 $_SESSION['nom'] = $_POST['nom'];
+                $_SESSION['prenom'] = $_POST['prenom'];
+                $_SESSION['couleur'] = $_POST['couleur'];
+                $_SESSION['profilepic'] = $_POST['profilepic'];
             }
 
             // ici,  rediriger vers la page main.php
-            header('location: main.php');
+            header('location: header.php');
         }
         $dbh = null;
     }

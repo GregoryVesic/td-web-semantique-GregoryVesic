@@ -7,13 +7,13 @@
  */
 
 session_start();
-if (!isset($_SESSION['nom']))
+if (!isset($_SESSION['email']))
 {
     print("Pas de session trouvée !");
 } else
 {
     print "<div id=\"login\">";
-    print "Email : " . $_SESSION['email'];
+    print "Email : " . base64_encode($_SESSION['email']);
     print "</div>";
 }
 

@@ -49,26 +49,25 @@ try {
         // Tenter d'inscrire l'utilisateur dans la base
         $sql = $dbh->prepare("INSERT INTO users (email, password, nom, prenom, tel, website, sexe, birthdate, ville, taille, couleur, profilepic) "
             . "VALUES (:email, :password, :nom, :prenom, :tel, :website, :sexe, :birthdate, :ville, :taille, :couleur, :profilepic)");
-        $sql->bindValue(":email", $email);
-        $sql->bindValue(":password", $password);
-        $sql->bindValue(":nom", $nom);
-        $sql->bindValue(":prenom", $prenom);
-        $sql->bindValue(":tel", $tel);
-        $sql->bindValue(":website", $website);
-        $sql->bindValue(":sexe", $sexe);
-        $sql->bindValue(":birthdate", $birthdate);
-        $sql->bindValue(":ville", $ville);
-        $sql->bindValue(":taille", $taille);
-        $sql->bindValue(":couleur", $couleur);
-        $sql->bindValue(":profilepic", $profilepic);
-
+        $sql->bindValue(":email", $email, PDO::PARAM_STR);
         // de même, lier la valeur pour le mot de passe
+        $sql->bindValue(":password", $password, PDO::PARAM_STR);
         // lier la valeur pour le nom, attention le nom peut être nul, il faut alors lier avec NULL, ou DEFAULT
+        $sql->bindValue(":nom", $nom, PDO::PARAM_STR);
         // idem pour le prenom, tel, website, birthdate, ville, taille, profilepic
         // n.b., notez: birthdate est au bon format ici, ce serait pas le cas pour un SGBD Oracle par exemple
+        $sql->bindValue(":prenom", $prenom, PDO::PARAM_STR);
+        $sql->bindValue(":tel", $tel, PDO::PARAM_STR);
+        $sql->bindValue(":website", $website, PDO::PARAM_STR);
+        $sql->bindValue(":birthdate", $birthdate, PDO::PARAM_STR);
+        $sql->bindValue(":ville", $ville, PDO::PARAM_STR);
+        $sql->bindValue(":taille", $taille, PDO::PARAM_INT);
+        $sql->bindValue(":profilepic", $profilepic, PDO::PARAM_LOB);
         // idem pour la couleur, attention au format ici (7 caractères, 6 caractères attendus seulement)
         // idem pour le prenom, tel, website
+        $sql->bindValue(":couleur", $couleur, PDO::PARAM_STR);
         // idem pour le sexe, attention il faut être sûr que c'est bien 'H', 'F', ou ''
+        $sql->bindValue(":sexe", $sexe, PDO::PARAM_STR);
 
         // on tente d'exécuter la requête SQL, si la méthode renvoie faux alors une erreur a été rencontrée.
         if (!$sql->execute()) {

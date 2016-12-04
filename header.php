@@ -9,11 +9,12 @@
 session_start();
 if (!isset($_SESSION['email']))
 {
+    print "<link rel=\"stylesheet\" media=\"screen\" href=\"css/styles.css\" >";
     print "<div id=\"header\">";
     print "<form id=\"search\" action=\"req_login.php\" method=\"post\"> ";
-    print "<label>Email <input type=\"text\" name=\"email\" id=\"email\"></label>";
-    print "<label>Mot de passe<input type=\"password\" name=\"password\" id=\"password\"></label>";
-    print "<input type=\"submit\" class=\"submit\" value=\"Login\">";
+    print "<label>Email <input type=\"text\" name=\"email\" id=\"email\"></label><br>";
+    print "<label>Mot de passe<input type=\"password\" name=\"password\" id=\"password\"></label><br>";
+    print "<input type=\"submit\" class=\"submit\" value=\"Login\"><br>";
     print "<a href=\"inscription.php\">Inscription</a>";
     print "</form>";
     print "</div>";

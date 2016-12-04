@@ -8,6 +8,6 @@
     session_start();
     session_unset();
     session_destroy();
-    header("location: inscription.php");
+    header("location: main.php");
     exit();
 ?>

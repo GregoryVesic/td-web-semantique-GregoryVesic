@@ -43,22 +43,18 @@
         <li>
             <label for="prenom">Nom :</label>
             <input type="text" name="nom" id="nom" required placeholder="Entrez un nom."/>
-            <!-- ajouter à input l'attribut qui donne une indication grisée (placeholder) -->
         </li>
         <li>
             <label for="prenom">Prénom :</label>
             <input type="text" name="prenom" id="prenom" required placeholder="Entrez un prénom."/>
-            <!-- ajouter à input l'attribut qui donne une indication grisée (placeholder) -->
         <li>
             <label for="tel">Téléphone :</label>
             <input type="tel" name="tel" id="tel" placeholder="Entrez un numéro de tel. (optionnel)"/>
-            <!-- non obligatoire -->
 
         </li>
         <li>
             <label for="url">Site Web :</label>
-            <input type="url" name="url" id="url" placeholder="Entrez un nom de domaine (optionnel)" />
-            <!-- non obligatoire -->
+            <input type="website" name="website" id="url" placeholder="Entrez un nom de domaine (optionnel)" />
         </li>
         <li>
             <input type= "radio" name="sexe" value="homme"> Masculin </br>
@@ -70,23 +66,13 @@
             <script>
                 computeAge = function(e) {
                     try{
-                        // j'affiche dans la console quelques objets javascript, ce qui devrait vous aider.
-                        console.log(Date.now());
-                        console.log(document.getElementById("birthdate"));
-                        console.log(document.getElementById("birthdate").valueAsDate);
-                        console.log(Date.parse(document.getElementById("birthdate").valueAsDate));
-                        console.log(new Date(0).getYear());
-                        console.log(new Date(65572346585).getYear());
-                        console.log(Date.now() - Date.parse(document.getElementById("birthdate").valueAsDate));
                         // modifier ici la valeur de l'élément age
-                        var date= newDate();
+                        var date= new Date();
                         date = (Date.now() - Date.parse(document.getElementById("birthdate").valueAsDate));
-                        //date.toUTCString();
-                        date.getYear();
-                        document.getElementById("age").innerHtml= date;
-                        //Age.setValue(date);
+                        document.getElementById("age").value= parseInt(date/ 365 /24 /60 /60 /1000);
                     } catch(e) {
                         // supprimez ici la valeur de l'élément age
+                        document.getElementById("age").value= null;
                     }
                 }
             </script>
@@ -104,22 +90,12 @@
         </li>
         <li>
             <label for="taille">Taille :</label>
-            <input type="range" class="range" value="15" max="250" min="0" step="0.01">
-            <!-- C'EST CASSE -->
-            <output>--</output>
-            <script>
-                /$(function() {
-                    $('.range').next().text('--');
-                    $('.range').on('input', function() {
-                        var $set = $(this).val();
-                        $(this).next().text($set);
-                    });
-                });/
-            </script>
+            <input type="range" name ="taille" id="taille" value =".60" max="2.50" min="0" step="0.01">
+            <output></output>
         </li>
         <li>
             <label for="color">Couleur préférée :</label>
-            <input type="color" id="color" name="color" value="#00000">
+            <input type="color" id="couleur" name="couleur" value="#00000">
         </li>
          <li>
                      <label for="profilepicfile">Photo de profil :</label>
@@ -140,7 +116,7 @@
                              var canvas = document.getElementById("preview");
                              var ctx = canvas.getContext("2d");
                              // on réinitialise le canvas: on l'efface, et déclare sa largeur et hauteur à 0
-                             ctx.setFillColor("white");
+                             //ctx.setFillColor("white");
                              ctx.fillRect(0,0,canvas.width,canvas.height);
                              canvas.width=0;
                              canvas.height=0;

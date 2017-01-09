@@ -18,11 +18,16 @@
 	$drawingCommands = $_POST["drawingCommands"];
 	$email = $_SESSION["email"];
 	$mot = $_POST["mot"];
+<<<<<<< HEAD
 	//$dest = $_POST["dest"];
+=======
+	$dest = $_POST["dest"];
+>>>>>>> b3f66a1eaba379dc9c649583e438118b7d0ddb58
 
 	// Connect to server and select database.
 	$dbh = new PDO('mysql:host=localhost;dbname=pictionnary', 'test', 'test');
 
+<<<<<<< HEAD
 	//$sql = $dbh->prepare("INSERT INTO DRAWINGS (EMAIL, COMMANDS, DESSIN, MOT, DEST) VALUES (:email, :commandes, :dessin, :mot, :dest)");
 	$sql = $dbh->prepare("INSERT INTO DRAWINGS (EMAIL, COMMANDS, PICTURE) VALUES (:email, :commands, :picture)");
 	$sql->bindValue(":email", $email);
@@ -30,6 +35,14 @@
 	$sql->bindValue(":picture", $picture);
 	//$sql->bindValue(":mot", $mot);
 	//$sql->bindValue(":dest", $dest);
+=======
+	$sql = $dbh->prepare("INSERT INTO DRAWINGS (EMAIL, COMMANDES, DESSIN, MOT, DEST) VALUES (:email, :commandes, :dessin, :mot, :dest)");
+	$sql->bindValue(":email", $email);
+	$sql->bindValue(":commandes", $drawingCommands);
+	$sql->bindValue(":dessin", $picture);
+	$sql->bindValue(":mot", $mot);
+	$sql->bindValue(":dest", $dest);
+>>>>>>> b3f66a1eaba379dc9c649583e438118b7d0ddb58
 
 	if (!$sql->execute()) {
 

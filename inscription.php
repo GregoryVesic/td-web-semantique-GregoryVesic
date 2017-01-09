@@ -55,6 +55,10 @@
         <li>
             <label for="url">Site Web :</label>
             <input type="website" name="website" id="url" placeholder="Entrez un nom de domaine (optionnel)" />
+<<<<<<< HEAD
+=======
+            <!-- non obligatoire -->
+>>>>>>> b3f66a1eaba379dc9c649583e438118b7d0ddb58
         </li>
         <li>
             <input type= "radio" name="sexe" value="homme"> Masculin </br>
@@ -69,7 +73,11 @@
                         // modifier ici la valeur de l'élément age
                         var date= new Date();
                         date = (Date.now() - Date.parse(document.getElementById("birthdate").valueAsDate));
+<<<<<<< HEAD
                         document.getElementById("age").value= parseInt(date/ 365 /24 /60 /60 /1000);
+=======
+                        document.getElementById("age").value= parseInt(date/ 364 /24 /60 /60 /1000);
+>>>>>>> b3f66a1eaba379dc9c649583e438118b7d0ddb58
                     } catch(e) {
                         // supprimez ici la valeur de l'élément age
                         document.getElementById("age").value= null;

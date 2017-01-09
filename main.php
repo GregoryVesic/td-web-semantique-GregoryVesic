@@ -31,12 +31,19 @@
         foreach ($sql as $row) {
             if ($i == 0) {
                 print "<tr>";
+<<<<<<< HEAD
                 $id= $row["id"];
             }
 
 
             print "<td>";
             print " <a href='guess.php?id=$id'> " . "<img src=\"" . $row["picture"] . "\" style=\"width:100px; height:100px;\" alt='Dessin' /></a>";
+=======
+            }
+
+            print "<td>";
+            print "<img src=\"" . $row["dessin"] . "\" style=\"width:100px; height:100px;\" alt='Dessin' />";
+>>>>>>> b3f66a1eaba379dc9c649583e438118b7d0ddb58
             print "</td>";
 
             if ($i == 2) {

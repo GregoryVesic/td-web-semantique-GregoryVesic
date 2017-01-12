@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset=utf-8 />
-    <link rel="stylesheet" media="screen" href="css/styles.css" >
-    <title>Pictionnary - Inscription</title>
-</head>
-<body>
+<% var title = 'Formulaire inscription' %>
+<% include headCSS %>
 
 <h2>Inscrivez-vous</h2>
-<form class="inscription" action="req_inscription.php" method="post" name="inscription">
+<form class="inscription" action="/req_inscription" method="post" name="inscription">
     <span class="required_notification">Les champs obligatoires sont indiqués par *</span>
     <ul>
         </li>
@@ -58,8 +52,8 @@
             <!-- non obligatoire -->
         </li>
         <li>
-            <input type= "radio" name="sexe" value="homme"> Masculin </br>
-            <input type= "radio" name="sexe" value="femme"> Féminin
+            <input type= "radio" name="sexe" value="H"> Masculin </br>
+            <input type= "radio" name="sexe" value="F"> Féminin
         </li>
         <li>
             <label for="birthdate">Date de naissance :</label>
@@ -176,7 +170,4 @@
          </li>
     </ul>
 </form>
-</body>
-</html>
-
-
+<% include foot %>

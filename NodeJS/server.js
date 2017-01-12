@@ -22,12 +22,17 @@ app.get('/', function(req, res){
 
 app.get('/login', function(req, res){
     res.render('login');
+    res.redirect('/register');
 });
 
 app.post('/login', function (req, res) {
     var username = req.body.username;
     var mdp = req.body.password;
     verif(username,mdp);
+});
+
+app.get('/inscription', function(req, res){
+    res.render('register');
 });
 
 app.get('/register', function (req, res) {
@@ -41,19 +46,42 @@ app.get('/profile', function (req, res) {
     // Afficher le button logout
 });
 
+app.post('/req_inscription', function (req, res) {
+    var email = req.body.email;
+    var mdp = req.body.mdp2;
+    var nom = req.body.nom;
+    var prenom = req.body.prenom;
+    var tel = req.body.tel;
+    var url = req.body.url;
+    var sexe = req.body.sexe;
+    var birthdate = req.body.birthdate;
+    var age = req.body.age;
+    var ville = req.body.ville;
+    var taille = req.body.taille;
+    var couleur = req.body.couleur;
+    var profilepic = req.body.profilepic;
+    inserer(email, mdp, nom, prenom, tel, url, sexe, birthdate, ville, taille, birthdate, profilepic);
+});
+
+logger.info('server start');
+app.listen(1313);
+
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'test',
     password: 'test',
-    database: 'pictionnary'
+    database: 'pictionnary',
+    port: 3307
 });
 
 function verif(username,mdp){
     connection.connect();
 
-    connection.query("select email from users where email='" + username + "' AND password='"+mdp+"'",function(err,rows){
+    connection.query("select email from users where email='" + username + "' AND password='"+mdp+"'",function(err,rows, fields){
+    //connection.query("select * from users",function(err,rows, fields){
+        //logger.info("select email from users where email='" + username + "' AND password='"+mdp+"'");
         if(!err) {
             if (rows.length > 0) {
                 logger.info('Authentification valide !');
@@ -62,21 +90,22 @@ function verif(username,mdp){
                 logger.info('Authentification non valide !');
             }
         }
-    });
-
-
-    /*
-    connection.query('SELECT * from users', function (err, rows, fields) {
-        if (!err) {
-            logger.info('Le résultat de la requête: ', rows);
+        else{
+            logger.info('Erreur SQL !');
         }
-        else
-            logger.error(err);
     });
-    */
-
     connection.end();
 }
 
-logger.info('server start');
-app.listen(1313);
+function inserer(email, mdp, nom, prenom, tel, url, sexe, birthdate, ville, taille, birthdate, profilepic) {
+    connection.connect();
+    connection.query("INSERT INTO users (email, password, nom, prenom, website, sexe, birthdate, ville, taille, profilepic) "
+        + "VALUES ('" + email + "','" + "'test123'" + "','" + nom + "','" + prenom + "','" + tel + "','" + url + "','" + sexe + "'," + birthdate + ",'" + ville + "'," + taille + ",'" + profilepic + "')", function(err, result){
+        if (!err) {
+            logger.info('Insertion : OK');
+        }
+        else {
+            logger.info('Erreur SQL !');
+        }
+    });
+}

@@ -57,9 +57,10 @@ function verif(username,mdp){
         if(!err) {
             if (rows.length > 0) {
                 logger.info('Authentification valide !');
-        }
-        else {
-            logger.info('Authentification non valide !');
+            }
+            else {
+                logger.info('Authentification non valide !');
+            }
         }
     });
 

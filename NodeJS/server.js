@@ -2,6 +2,7 @@ var express = require('express'); // Créer un serveur
 var morgan = require('morgan'); // Charge le middleware de logging
 var favicon = require('serve-favicon'); // Charge le middleware de favicon
 var bodyParser = require('body-parser'); // Parsing JSON
+var session= require('express-session');
 
 var logger = require('log4js').getLogger('Server');
 var app = express();
@@ -44,6 +45,15 @@ app.get('/profile', function (req, res) {
     // TODO
     // On redirige vers la login si l'utilisateur n'a pas été authentifier
     // Afficher le button logout
+    if (sesssion.open = true) {
+        res.render('profile' , {
+            email: session.mail,
+            nom: session.nom,
+            prenom: session.prenom,
+            profilepic: session.profilepic,
+            couleur: session.couleur
+    });
+    }
 });
 
 app.post('/req_inscription', function (req, res) {
@@ -87,6 +97,14 @@ function verif(username, mdp) {
         if (!err) {
             if (rows.length > 0) {
                 logger.info('Authentification valide !');
+                session.open = true;
+                session.mail = rows[0].email;
+                session.prenom = rows[0].prenom;
+                session.nom = rows[0].nom;
+                session.profilepic = rows[0].profilepic;
+                session.couleur = rows[0].couleur;
+
+                redir.redirect('/profile');
             }
             else {
                 logger.info('Authentification non valide !');
@@ -105,7 +123,7 @@ function verif(username, mdp) {
 function inserer(userInfo) {
     //connection.connect();
     connection.query("INSERT INTO users (email, password, nom, prenom, tel, website, sexe, birthdate, ville, taille, couleur, profilepic) VALUES ('" + userInfo.email + "','" + userInfo.mdp + "','" + userInfo.nom + "','" + userInfo.prenom + "','" + userInfo.tel + "','" + userInfo.website + "','" + userInfo.sexe + "', '" + userInfo.birthdate + "','" + userInfo.ville + "', " + userInfo.taille + ",'" + userInfo.couleur + "','" + userInfo.profilepic + "')", function (err, result) {
-        logger.debug(result);
+        //logger.debug(result);
         if (!err) {
            logger.info('Insertion : OK');
         } else {

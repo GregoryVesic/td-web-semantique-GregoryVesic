@@ -1,3 +1,29 @@
+#profil {
+    background-color: #9fd574;;
+    width: 30em;
+}
+
+#head {
+    background-color: #9fd574;
+    width: 80em;
+}
+
+#login {
+    background-color: #9fd574;;
+    text-align: center;
+    width: 30em;
+    padding-top: 2em;
+}
+
+#inscription {
+    background-color: #9fd574;;
+    width: 55em;
+}
+
+#dashboard {
+    width: 55em;
+}
+
 /* === Remove input autofocus webkit === */
 *:focus {outline: none;}
 

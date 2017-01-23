@@ -150,15 +150,12 @@
         <form name="tools" action="req_paint.php" method="post">
             Mot à faire deviner <input type="text" name="mot" placeholder="Mot">
             <br />
-<<<<<<< HEAD
             <!--
             Destinataire <input type="text" name="dest" placeholder="Destinataire">
             <br />
             -->
-=======
             Destinataire <input type="text" name="dest" placeholder="Destinataire">
             <br />
->>>>>>> b3f66a1eaba379dc9c649583e438118b7d0ddb58
             <!-- ici, insérez un champs de type range avec id="size", pour choisir un entier entre 0 et 4) -->
             <input type="range" id="size" min="0" max="3" step="1"/>
             <!-- ici, insérez un champs de type color avec id="color", et comme valeur l'attribut  de session couleur (à l'aide d'une commande php echo).) -->

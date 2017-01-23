@@ -12,13 +12,16 @@ Bonjour <b><%=prenom%> <%=nom%></b> !
     </tr>
 
     <div>
-        <p><b>Dessins en attente :</b></p>
+        <h1><center>Liste des dessins</center></h1>
 
         <form method="post">
         <% for(var i = 0 ; i < res.length ; i++) { %>
-            <p>Emetteur : <%= res[i].email %></p>
-            <p>Image: <img src=<%= res[i].picture %> height="60" width="60"></p>
-            <p>Réponse: <input type="text" name="rep"+res[i].id ><input type="submit" name="btn"+res[i].id></p>
+            <p><b>Emetteur</b> : <%= res[i].email %></p>
+            <p><b>Destinataire</b> : <%= res[i].dest %> </p>
+            <p><b>Image</b> : <img src=<%= res[i].picture %> height="60" width="60"></p>
+            <p><b>Réponse</b> : <%=res[i].text%></p>
+            <p><b>Réponse donnée</b> : <%=res[i].response%></p>
+            ___________________________________________
         <% } %>
         </form>
     </div>

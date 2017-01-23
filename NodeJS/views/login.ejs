@@ -2,7 +2,7 @@
 <% include head %>
 
 <h1>Login</h1>
-Accés au <a href="/profile">/profil</a>
+<div id = "login">
 <form method="post" action="/login">
   <p>
     <label>Username:</label>
@@ -10,11 +10,12 @@ Accés au <a href="/profile">/profil</a>
   </p>
   <p>
     <label>Password:</label>
-    <input type="text" name="password">
+    <input type="password" name="password">
   </p>
   <p>
     <input type="submit" value="Login">
   </p>
 </form>
 <a href="/inscription">Inscription</a>
+</div>
 <% include foot %>

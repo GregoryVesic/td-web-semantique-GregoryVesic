@@ -1,8 +1,8 @@
 <% var title = 'Formulaire inscription' %>
-<% include headCSS %>
+<% include head %>
 
 <h2>Inscrivez-vous</h2>
-<form class="inscription" action="/req_inscription" method="post" name="inscription">
+<form class="inscription" action="/req_inscription" method="post" name="inscription" id="inscription">
     <span class="required_notification">Les champs obligatoires sont indiqués par *</span>
     <ul>
         </li>
@@ -13,7 +13,7 @@
         </li>
         <li>
             <label for="mdp1">Mot de passe :</label>
-            <input type="password" name="password" id="mdp1" pattern=".{6,8}" onkeyup="validateMdp2()" title = "Le mot de passe doit être composé de 6 à 8 caractères alphanumériques." required placeholder="Entrez un mot de passe."/>
+            <input type="password" name="password" id="password" pattern=".{6,8}" onkeyup="validateMdp2()" title = "Le mot de passe doit être composé de 6 à 8 caractères alphanumériques." required placeholder="Entrez un mot de passe."/>
             <span class="form_hint">De 6 à 8 caractères alphanumériques.</span>
         </li>
         <li>

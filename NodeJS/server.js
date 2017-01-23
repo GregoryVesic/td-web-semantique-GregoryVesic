@@ -1,8 +1,8 @@
 var express = require('express'); // Créer un serveur
+var session= require('express-session'); // Créer la session
 var morgan = require('morgan'); // Charge le middleware de logging
 var favicon = require('serve-favicon'); // Charge le middleware de favicon
 var bodyParser = require('body-parser'); // Parsing JSON
-var session= require('express-session');
 
 var logger = require('log4js').getLogger('Server');
 var app = express();
@@ -15,21 +15,87 @@ app.use(bodyParser());
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 
+/* Session */
+app.use(session({secret: 'ssshhhhh'}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+var sess;
 /* On affiche le formulaire d'enregistrement */
 
 app.get('/', function (req, res) {
-    res.redirect('/login');
+    // La session est en cours lorsque l'utilisateur requête l'app via l'URL
+    sess = req.session;
+    // On check si la session est existante, on route selon son existance
+    if(sess.email) {
+        res.redirect('/profile');
+    }
+    else {
+        res.render('login');
+    }
 });
 
 app.get('/login', function (req, res) {
     res.render('login');
-    res.redirect('/register');
 });
 
 app.post('/login', function (req, res) {
     var username = req.body.username;
     var mdp = req.body.password;
-    verif(username, mdp);
+
+    connection.connect();
+
+    connection.query("select * from users where email='" + username + "' AND password='" + mdp + "'", function (err, rows, fields) {
+        if (!err) {
+            if (rows.length > 0) {
+                logger.info('Authentification valide !');
+                sess = req.session;
+                sess.valid= true;
+                if (username=="admin@gmail.com") {
+                    sess.admin = username;
+                    sess.password = rows[0].password;
+                    sess.prenom = rows[0].prenom;
+                    sess.nom = rows[0].nom;
+                    sess.tel = rows[0].tel;
+                    sess.tel = rows[0].tel;
+                    sess.website = rows[0].website;
+                    sess.sexe = rows[0].sexe;
+                    sess.birthdate = rows[0].birthdate;
+                    sess.ville = rows[0].ville;
+                    sess.taille = rows[0].taille;
+                    sess.couleur = rows[0].couleur;
+                    sess.profilepic = rows[0].profilepic;
+                    logger.info("gg");
+                    res.redirect('profile');
+                } else {
+                    // On assigne ici l'username (email) saisie dans le HTML à la Session
+                    sess.email = username;
+                    sess.password = rows[0].password;
+                    sess.prenom = rows[0].prenom;
+                    sess.nom = rows[0].nom;
+                    sess.tel = rows[0].tel;
+                    sess.tel = rows[0].tel;
+                    sess.website = rows[0].website;
+                    sess.sexe = rows[0].sexe;
+                    sess.birthdate = rows[0].birthdate;
+                    sess.ville = rows[0].ville;
+                    sess.taille = rows[0].taille;
+                    sess.couleur = rows[0].couleur;
+                    sess.profilepic = rows[0].profilepic;
+                    logger.info(sess.profilepic);
+                    res.redirect('profile');
+                    //res.render('profile');
+                }
+            }
+            else {
+                logger.info('Authentification non valide !');
+            }
+        }
+        else {
+            logger.info('Erreur SQL !');
+        }
+        connection.end();
+    });
 });
 
 app.get('/inscription', function (req, res) {
@@ -40,26 +106,111 @@ app.get('/register', function (req, res) {
     // TODO ajouter un nouveau utilisateur
 });
 
-/* On affiche le profile  */
+app.post('/req_inscription', function (req, res) {
+    var email = req.body.email;
+    var password = req.body.password;
+    var nom = req.body.nom;
+    var prenom = req.body.prenom;
+    var tel = req.body.tel;
+    var url = req.body.website;
+    var sexe = req.body.sexe;
+    var birthdate = req.body.birthdate;
+    var ville = req.body.ville;
+    var taille = req.body.taille;
+    var couleur = req.body.couleur;
+    var profilepic = req.body.profilepic;
+    inserer(req.body);
+});
+
 app.get('/profile', function (req, res) {
-    // TODO
-    // On redirige vers la login si l'utilisateur n'a pas été authentifier
-    // Afficher le button logout
-    if (sesssion.open = true) {
-        res.render('profile' , {
-            email: session.mail,
-            nom: session.nom,
-            prenom: session.prenom,
-            profilepic: session.profilepic,
-            couleur: session.couleur
-    });
+    //getProfil(sess.email);
+    sess = req.session;
+    //if (sess.valid = true) {
+        var connection = mysql.createConnection({
+            host: 'localhost',
+            user: 'test',
+            password: 'test',
+            database: 'pictionnary',
+            port: 3306
+        });
+    if (sess.email) {
+        connection.query("SELECT * FROM drawings WHERE dest='" + sess.email + "'", function (err, rows, fields) {
+            if (!err) {
+                if (rows.length > 0) {
+                        logger.info('Requete valide !');
+                        res.render('profile', {
+                            email: sess.email,
+                            password: sess.password,
+                            nom: sess.nom,
+                            prenom: sess.prenom,
+                            tel: sess.tel,
+                            website: sess.website,
+                            sexe: sess.sexe,
+                            birthdate: sess.birthdate,
+                            ville: sess.ville,
+                            taille: sess.taille,
+                            couleur: sess.couleur,
+                            profilepic: sess.profilepic,
+                            res: rows
+                        });
+                    }
+                    else {
+                        logger.info('Requete non valide !');
+                    }
+                    connection.end();
+                }
+        });
+    } else if (sess.admin) {
+            connection.query("SELECT * FROM drawings", function (err, rows, fields) {
+                res.render('profileAdmin', {
+                    email: sess.email,
+                    password: sess.password,
+                    nom: sess.nom,
+                    prenom: sess.prenom,
+                    tel: sess.tel,
+                    website: sess.website,
+                    sexe: sess.sexe,
+                    birthdate: sess.birthdate,
+                    ville: sess.ville,
+                    taille: sess.taille,
+                    couleur: sess.couleur,
+                    profilepic: sess.profilepic,
+                    res: rows
+                });
+            });
+        } else {
+            res.redirect("/login");
+        }
+    //}
+});
+
+app.get('/dashboard', function (req, res) {
+    sess = req.session;
+    if (sess.email) {
+        res.render('dashboard', {
+            email: sess.email,
+            password: sess.password,
+            nom: sess.nom,
+            prenom: sess.prenom,
+            tel: sess.tel,
+            website: sess.website,
+            sexe: sess.sexe,
+            birthdate: sess.birthdate,
+            ville: sess.ville,
+            taille: sess.taille,
+            couleur: sess.couleur,
+            profilepic: sess.profilepic
+        });
+    } else if (sess.admin) {
+        res.render('dashboardAdmin');
+    } else {
+        res.redirect("/login");
     }
 });
 
-app.post('/req_inscription', function (req, res) {
+app.post('/dashboard', function (req, res) {
     var email = req.body.email;
-    //var mdp = req.body.mdp2;
-    var mdp = req.body.password;
+    var password = req.body.password;
     var nom = req.body.nom;
     var prenom = req.body.prenom;
     var tel = req.body.tel;
@@ -71,12 +222,53 @@ app.post('/req_inscription', function (req, res) {
     var taille = req.body.taille;
     var couleur = req.body.couleur;
     var profilepic = req.body.profilepic;
-    logger.info(email, mdp, nom, prenom, tel, url, sexe, birthdate, ville, taille, couleur, profilepic);
-    inserer(req.body);
+    //logger.info(email, mdp, nom, prenom, tel, url, sexe, birthdate, ville, taille, couleur, profilepic);
+    mettreAJour(req.body);
 });
 
-logger.info('server start');
-app.listen(1313);
+app.get('/paint', function (req, res) {
+    sess = req.session;
+    if(sess.email) {
+        res.render('paint', {
+            email: sess.email,
+            password: sess.password,
+            nom: sess.nom,
+            prenom: sess.prenom,
+            tel: sess.tel,
+            website: sess.website,
+            sexe: sess.sexe,
+            birthdate: sess.birthdate,
+            ville: sess.ville,
+            taille: sess.taille,
+            couleur: sess.couleur,
+            profilepic: sess.profilepic
+        });
+    } else {
+        res.redirect('login');
+    }
+});
+
+app.post('/paint', function (req, res) {
+    var picture= req.body.picture;
+    var commands= req.body.commands;
+    var email= sess.email;
+    var mot= req.body.mot;
+    var dest= req.body.dest;
+
+    envoyerDessin(req.body);
+});
+
+app.get('/logout',function(req,res) {
+    req.session.destroy(function (err) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log("ok");
+            sess.valid = false;
+            res.redirect('/');
+        }
+    });
+});
 
 var mysql = require('mysql');
 
@@ -85,15 +277,16 @@ var connection = mysql.createConnection({
     user: 'test',
     password: 'test',
     database: 'pictionnary',
-    port: 3307
+    port: 3306
 });
+
+app.listen(1313);
+logger.info('server start on PORT 1313');
 
 function verif(username, mdp) {
     connection.connect();
 
     connection.query("select email from users where email='" + username + "' AND password='" + mdp + "'", function (err, rows, fields) {
-        //connection.query("select * from users",function(err,rows, fields){
-        //logger.info("select email from users where email='" + username + "' AND password='"+mdp+"'");
         if (!err) {
             if (rows.length > 0) {
                 logger.info('Authentification valide !');
@@ -103,33 +296,94 @@ function verif(username, mdp) {
                 session.nom = rows[0].nom;
                 session.profilepic = rows[0].profilepic;
                 session.couleur = rows[0].couleur;
-
-                redir.redirect('/profile');
+                //return "o";
             }
             else {
                 logger.info('Authentification non valide !');
             }
-
         }
         else {
             logger.info('Erreur SQL !');
         }
         connection.end();
     });
-
 }
 
 // userInfo : contenu des champs du body dans un JSON
 function inserer(userInfo) {
     //connection.connect();
-    connection.query("INSERT INTO users (email, password, nom, prenom, tel, website, sexe, birthdate, ville, taille, couleur, profilepic) VALUES ('" + userInfo.email + "','" + userInfo.mdp + "','" + userInfo.nom + "','" + userInfo.prenom + "','" + userInfo.tel + "','" + userInfo.website + "','" + userInfo.sexe + "', '" + userInfo.birthdate + "','" + userInfo.ville + "', " + userInfo.taille + ",'" + userInfo.couleur + "','" + userInfo.profilepic + "')", function (err, result) {
-        //logger.debug(result);
+    connection.query("INSERT INTO users (email, password, nom, prenom, tel, website, sexe, birthdate, ville, taille, couleur, profilepic) VALUES ('" + userInfo.email + "','" + userInfo.password + "','" + userInfo.nom + "','" + userInfo.prenom + "','" + userInfo.tel + "','" + userInfo.website + "','" + userInfo.sexe + "', '" + userInfo.birthdate + "','" + userInfo.ville + "', " + userInfo.taille + ",'" + userInfo.couleur + "','" + userInfo.profilepic + "')", function (err, result) {
         if (!err) {
-           logger.info('Insertion : OK');
+            logger.info('Insertion : OK');
         } else {
-           logger.info('Erreur SQL !');
-           connection.close();
-           throw err;
+            logger.info('Erreur SQL !');
+            connection.close();
+            throw err;
         }
+    });
+}
+
+function mettreAJour(userInfo) {
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'test',
+        password: 'test',
+        database: 'pictionnary',
+        port: 3306
+    });
+
+    connection.query("UPDATE users SET email='" + userInfo.email + "', password='" + userInfo.password + "', nom='" + userInfo.nom + "', prenom='" + userInfo.prenom + "', tel='" + userInfo.tel + "', website='" + userInfo.website + "', sexe='" + userInfo.sexe + "', birthdate='" + userInfo.birthdate + "', ville='" + userInfo.ville + "', taille=" + userInfo.taille + ", couleur='" + userInfo.couleur + "', profilepic='" + userInfo.profilepic + "' WHERE email='" + sess.email + "'", function (err, result) {
+        if (!err) {
+            logger.info('Mise à jour : OK');
+        } else {
+            logger.info('Erreur SQL !');
+            connection.close();
+            throw err;
+        }
+    });
+}
+
+function envoyerDessin(userInfo) {
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'test',
+        password: 'test',
+        database: 'pictionnary',
+        port: 3306
+    });
+
+    connection.query("INSERT INTO drawings (email, commands, picture, dest, text) VALUES ('" + sess.email + "','" + "test" + "','" + userInfo.picture + "','" + userInfo.dest + "','" + userInfo.mot + "')", function (err, result) {
+        if (!err) {
+            logger.info('Dessin envoyé : OK');
+        } else {
+            logger.info('Erreur SQL !');
+            //connection.close();
+            throw err;
+        }
+    });
+}
+
+function getProfil(username) {
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'test',
+        password: 'test',
+        database: 'pictionnary',
+        port: 3306
+    });
+
+    connection.query("SELECT * FROM drawings WHERE dest='" + username + "'", function (err, rows, fields) {
+        if (!err) {
+            if (rows.length > 0) {
+                logger.info('Requete valide !');
+                        var picture= rows[0].picture
+                } else {
+                    res.render('login');
+                }
+            }
+            else {
+                logger.info('Requete non valide !');
+            }
+        connection.end();
     });
 }

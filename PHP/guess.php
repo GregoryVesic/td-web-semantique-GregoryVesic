@@ -34,10 +34,7 @@
                     $commandes =  $row["commandes"];
                     $mot	  = $row['mot'];
                 }
-<<<<<<< HEAD
                 print $commandes;
-=======
->>>>>>> b3f66a1eaba379dc9c649583e438118b7d0ddb58
             }
         }catch (PDOException $e) {
             print "Erreur !: " . $e->getMessage() . "<br/>";
@@ -68,10 +65,6 @@
                 canvas.height= 400;
                 var context = canvas.getContext('2d');
                 var old_x0, old_y0;
-<<<<<<< HEAD
-
-=======
->>>>>>> b3f66a1eaba379dc9c649583e438118b7d0ddb58
                 var start = function(c) {
                     console.log("Commande start !");
                     context.beginPath();

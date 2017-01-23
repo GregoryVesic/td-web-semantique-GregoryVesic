@@ -156,6 +156,20 @@ app.get('/profile', function (req, res) {
                     }
                     else {
                         logger.info('Requete non valide !');
+                    res.render('profileVide', {
+                        email: sess.email,
+                        password: sess.password,
+                        nom: sess.nom,
+                        prenom: sess.prenom,
+                        tel: sess.tel,
+                        website: sess.website,
+                        sexe: sess.sexe,
+                        birthdate: sess.birthdate,
+                        ville: sess.ville,
+                        taille: sess.taille,
+                        couleur: sess.couleur,
+                        profilepic: sess.profilepic,
+                    });
                     }
                     connection.end();
                 }

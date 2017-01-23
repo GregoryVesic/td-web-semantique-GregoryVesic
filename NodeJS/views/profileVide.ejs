@@ -1,0 +1,21 @@
+<% var title = 'Profil' %>
+<% include head %>
+
+<h1>Profil</h1>
+Bonjour <b><%=prenom%> <%=nom%></b> !
+
+<div id = "profil">
+    <tr>
+       <td rowspan = 1><img src="<%=profilepic%>" height="30" width="30"></td>
+        <td><%=prenom%></td>
+        <td><%=nom%></td>
+    </tr>
+
+    <div>
+        <p><b> Aucun dessin en attente :( </b></p>
+    </div>
+
+</div>
+
+<!-- <a href="/inscription">Inscription</a> -->
+<% include foot %>

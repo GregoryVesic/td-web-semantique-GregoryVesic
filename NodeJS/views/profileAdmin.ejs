@@ -4,7 +4,7 @@
 <h1>Profil</h1>
 Bonjour <b><%=prenom%> <%=nom%></b> !
 
-<div id = "profil">
+<div id = "profilAdmin">
     <!--
     <tr>
        <td rowspan = 1><img src="<%=profilepic%>" height="30" width="30"></td>
@@ -17,12 +17,23 @@ Bonjour <b><%=prenom%> <%=nom%></b> !
 
         <form method="post">
         <% for(var i = 0 ; i < res.length ; i++) { %>
-            <p><b><center>Dessin n°<%= i+1 %>:</center></b></p>
-            <p><b>Emetteur</b> : <%= res[i].email %></p>
-            <p><b>Destinataire</b> : <%= res[i].dest %> </p>
-            <p><b>Image</b> : <img src=<%= res[i].picture %> height="60" width="60"></p>
-            <p><b>Réponse</b> : <%=res[i].text%></p>
-            <p><b>Réponse donnée</b> : <%=res[i].response%></p>
+            <p><b>Dessin n°<%= i+1 %>:</b></p>
+            <table>
+                <tr>
+                    <th>Emetteur</th>
+                    <th>Destinataire</th>
+                    <th>Image</th>
+                    <th>Réponse</th>
+                    <th>Réponse donnée</th>
+                </tr>
+                <tr>
+                    <td width="250"><center><%= res[i].email %></center></td>
+                    <td width="250"><center><%= res[i].dest %></center></td>
+                    <td> <center><img src=<%= res[i].picture %> height="60" width="60"></center></td>
+                    <td width="200"><center><%=res[i].text%></center></td>
+                    <td width="200"><center><%=res[i].response%></center></td>
+                </tr>
+            </table>
         <% } %>
         </form>
     </div>

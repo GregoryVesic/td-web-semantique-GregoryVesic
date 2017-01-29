@@ -19,9 +19,18 @@ Bonjour <b><%=prenom%> <%=nom%></b> !
         <% for(var i = 0 ; i < res.length ; i++) { %>
             <p><b>Dessin n°<%= i+1 %>:</b></p>
             <% var wname = "rep"+  res[i].id %>
-            <p>Emetteur : <%= res[i].email %></p>
-            <p>Image: <img src=<%= res[i].picture %> height="60" width="60"></p>
-            <p>Réponse: <input type="text" name=<%= wname %> placeholder= <%= res[i].response %>></p>
+            <table>
+            <tr>
+                <th>Emetteur</th>
+                <th>Image</th>
+                <th>Réponse</th>
+            </tr>
+            <tr>
+                <td width="300"><center> <%= res[i].email %> </center></td>
+                <td><center><img src=<%= res[i].picture %> height="60" width="60"></center></td>
+                <td width="100"><center><input type="text" name=<%= wname %> value= <%= res[i].response %>></center></td>
+            </tr>
+            </table>
         <% } %>
             <center><input type="submit" name="btn"></center>
         </form>

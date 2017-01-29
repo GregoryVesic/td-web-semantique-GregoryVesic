@@ -1,22 +1,27 @@
 #profil {
-    background-color: #9fd574;;
-    width: 30em;
+    background-color: #cccccc;
+    width: 50em;
+}
+
+#profilAdmin {
+    background-color: #cccccc;
+    width: 60em;
 }
 
 #head {
-    background-color: #9fd574;
+    background-color: #cccccc;
     width: 80em;
 }
 
 #login {
-    background-color: #9fd574;;
+    background-color: #cccccc;
     text-align: center;
     width: 30em;
     padding-top: 2em;
 }
 
 #inscription {
-    background-color: #9fd574;;
+    background-color: #cccccc;
     width: 55em;
 }
 

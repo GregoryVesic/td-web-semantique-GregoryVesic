@@ -41,12 +41,12 @@
             // crér un nouvel objet qui représente une commande de type "start", avec la position, la couleur
             var command = {};
             command.command="start";
-            command.x=e.x;
-            command.y= e.y;
-            command.size=size;
+            command.x=e.layerX;
+            command.y= e.layerY;
+            command.size=size/2;
             command.color=color;
             //c'est équivalent à:
-            command = {"command":"start", "x": e.x, "y": e.y, "size": size, "color": color};
+            //command = {"command":"start", "x": e.x, "y": e.y, "size": size, "color": color};
 
             // Ce genre d'objet Javascript simple est nommé JSON. Pour apprendre ce qu'est le JSON, c.f. http://blog.xebia.fr/2008/05/29/introduction-a-json/
 
@@ -55,7 +55,7 @@
 
             // ici, dessinez un cercle de la bonne couleur, de la bonne taille, et au bon endroit.
             context.beginPath();
-            context.arc(e.x, e.y, size, 0 * Math.PI, 2 * Math.PI);
+            context.arc(e.layerX, e.layerY, size, 0 * Math.PI, 2 * Math.PI);
             context.fillStyle = command.color;
             context.stroke();
             context.fill();
@@ -77,27 +77,27 @@
                 console.log("drawing");
                 var command = {};
                 command.command="draw";
-                command.x=e.x;
-                command.y = e.y;
+                command.x=e.layerX;
+                command.y = e.layerY;
                 command.color = color;
                 command.size = size;
                 drawingCommands.push(command);
 
                 context.beginPath();
-                context.arc(e.x, e.y, size, 0 * Math.PI, 2 * Math.PI);
+                context.arc(e.layerX, e.layerY, size, 0 * Math.PI, 2 * Math.PI);
                 context.fillStyle = command.color;
                 context.fill();
 
                 context.beginPath();
                 //dessiner ligne
-                context.moveTo(e.x, e.y);
+                context.moveTo(e.layerX, e.layerY);
                 context.lineTo(x0, y0);
                 context.lineWidth = size * 2;
                 context.strokeStyle = color;
                 context.stroke();
 
-                x0 = e.x;
-                y0 = e.y;
+                x0 = e.layerX;
+                y0 = e.layerY;
             }
         }
 

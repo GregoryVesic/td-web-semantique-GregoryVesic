@@ -5,21 +5,25 @@
 Bonjour <b><%=prenom%> <%=nom%></b> !
 
 <div id = "profil">
+    <!--
     <tr>
        <td rowspan = 1><img src="<%=profilepic%>" height="30" width="30"></td>
         <td><%=prenom%></td>
         <td><%=nom%></td>
     </tr>
-
+    -->
     <div>
-        <p><b>Dessins en attente :</b></p>
+        <h1><center>Dessins en attente</center></h1>
 
-        <form method="post">
+        <form method="post" action="/profile">
         <% for(var i = 0 ; i < res.length ; i++) { %>
+            <p><b>Dessin n°<%= i+1 %>:</b></p>
+            <% var wname = "rep"+  res[i].id %>
             <p>Emetteur : <%= res[i].email %></p>
             <p>Image: <img src=<%= res[i].picture %> height="60" width="60"></p>
-            <p>Réponse: <input type="text" name="rep"+res[i].id ><input type="submit" name="btn"+res[i].id></p>
+            <p>Réponse: <input type="text" name=<%= wname %> placeholder= <%= res[i].response %>></p>
         <% } %>
+            <center><input type="submit" name="btn"></center>
         </form>
     </div>
 

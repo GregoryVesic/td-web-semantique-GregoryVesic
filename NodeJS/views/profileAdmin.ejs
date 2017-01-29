@@ -5,23 +5,24 @@
 Bonjour <b><%=prenom%> <%=nom%></b> !
 
 <div id = "profil">
+    <!--
     <tr>
        <td rowspan = 1><img src="<%=profilepic%>" height="30" width="30"></td>
         <td><%=prenom%></td>
         <td><%=nom%></td>
     </tr>
-
+    -->
     <div>
         <h1><center>Liste des dessins</center></h1>
 
         <form method="post">
         <% for(var i = 0 ; i < res.length ; i++) { %>
+            <p><b><center>Dessin n°<%= i+1 %>:</center></b></p>
             <p><b>Emetteur</b> : <%= res[i].email %></p>
             <p><b>Destinataire</b> : <%= res[i].dest %> </p>
             <p><b>Image</b> : <img src=<%= res[i].picture %> height="60" width="60"></p>
             <p><b>Réponse</b> : <%=res[i].text%></p>
             <p><b>Réponse donnée</b> : <%=res[i].response%></p>
-            ___________________________________________
         <% } %>
         </form>
     </div>

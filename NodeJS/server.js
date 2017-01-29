@@ -6,6 +6,8 @@ var bodyParser = require('body-parser'); // Parsing JSON
 
 var logger = require('log4js').getLogger('Server');
 var app = express();
+var mysql = require('mysql');
+var sess;
 
 app.use(morgan('combined')); // Active le middleware de logging
 
@@ -20,7 +22,7 @@ app.use(session({secret: 'ssshhhhh'}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-var sess;
+
 /* On affiche le formulaire d'enregistrement */
 
 app.get('/', function (req, res) {
@@ -43,7 +45,14 @@ app.post('/login', function (req, res) {
     var username = req.body.username;
     var mdp = req.body.password;
 
-    connection.connect();
+    //connection.connect();
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'test',
+        password: 'test',
+        database: 'pictionnary',
+        port: 3307
+    });
 
     connection.query("select * from users where email='" + username + "' AND password='" + mdp + "'", function (err, rows, fields) {
         if (!err) {
@@ -65,7 +74,6 @@ app.post('/login', function (req, res) {
                     sess.taille = rows[0].taille;
                     sess.couleur = rows[0].couleur;
                     sess.profilepic = rows[0].profilepic;
-                    logger.info("gg");
                     res.redirect('profile');
                 } else {
                     // On assigne ici l'username (email) saisie dans le HTML à la Session
@@ -120,6 +128,7 @@ app.post('/req_inscription', function (req, res) {
     var couleur = req.body.couleur;
     var profilepic = req.body.profilepic;
     inserer(req.body);
+    res.redirect('/login');
 });
 
 app.get('/profile', function (req, res) {
@@ -131,13 +140,12 @@ app.get('/profile', function (req, res) {
             user: 'test',
             password: 'test',
             database: 'pictionnary',
-            port: 3306
+            port: 3307
         });
     if (sess.email) {
         connection.query("SELECT * FROM drawings WHERE dest='" + sess.email + "'", function (err, rows, fields) {
             if (!err) {
                 if (rows.length > 0) {
-                        logger.info('Requete valide !');
                         res.render('profile', {
                             email: sess.email,
                             password: sess.password,
@@ -155,7 +163,6 @@ app.get('/profile', function (req, res) {
                         });
                     }
                     else {
-                        logger.info('Requete non valide !');
                     res.render('profileVide', {
                         email: sess.email,
                         password: sess.password,
@@ -198,6 +205,59 @@ app.get('/profile', function (req, res) {
     //}
 });
 
+app.post('/profile', function (req, res) {
+    sess = req.session;
+    //if (sess.valid = true) {
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'test',
+        password: 'test',
+        database: 'pictionnary',
+        port: 3307
+    });
+    if (sess.email) {
+        logger.info('Coucouuuuuuuuu');
+        connection.query("SELECT * FROM drawings WHERE dest='" + sess.email + "'", function (err, rows, fields) {
+            if (!err) {
+                if (rows.length > 0) {
+
+                    res.render('profile', {
+                        email: sess.email,
+                        password: sess.password,
+                        nom: sess.nom,
+                        prenom: sess.prenom,
+                        tel: sess.tel,
+                        website: sess.website,
+                        sexe: sess.sexe,
+                        birthdate: sess.birthdate,
+                        ville: sess.ville,
+                        taille: sess.taille,
+                        couleur: sess.couleur,
+                        profilepic: sess.profilepic,
+                        res: rows
+                    });
+
+                    for (var i = 0; i < rows.length; i++) {
+                        logger.info('Coucouuuuuuuuu   ' + i);
+                        var reponse = req.body['rep' + rows[i].id];//req.body.rep;//"rep" + rows[i].response;
+                        logger.info(req.body + " : " + reponse);
+                        connection.query("UPDATE drawings SET response='" + reponse + "' WHERE id='" + rows[i].id + "'", function (err, result) {
+                            if (!err) {
+                                logger.info('Mise à jour : OK');
+                            } else {
+                                logger.info('Erreur SQL !');
+                                connection.close();
+                                throw err;
+                            }
+                        });
+                    }
+                }
+                connection.end();
+            }
+        });
+    }
+});
+
 app.get('/dashboard', function (req, res) {
     sess = req.session;
     if (sess.email) {
@@ -238,6 +298,17 @@ app.post('/dashboard', function (req, res) {
     var profilepic = req.body.profilepic;
     //logger.info(email, mdp, nom, prenom, tel, url, sexe, birthdate, ville, taille, couleur, profilepic);
     mettreAJour(req.body);
+    res.redirect('/profile');
+});
+
+app.post('/dashboardAdmin', function (req, res) {
+    var email = req.body.email;
+    deleteUser(email);
+});
+
+app.post('/dashboardAdmin2', function (req, res) {
+    var email = req.body.email;
+    deleteDrawing(email);
 });
 
 app.get('/paint', function (req, res) {
@@ -270,6 +341,7 @@ app.post('/paint', function (req, res) {
     var dest= req.body.dest;
 
     envoyerDessin(req.body);
+    res.redirect('/paint');
 });
 
 app.get('/logout',function(req,res) {
@@ -282,16 +354,6 @@ app.get('/logout',function(req,res) {
             res.redirect('/');
         }
     });
-});
-
-var mysql = require('mysql');
-
-var connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'test',
-    password: 'test',
-    database: 'pictionnary',
-    port: 3306
 });
 
 app.listen(1313);
@@ -343,7 +405,7 @@ function mettreAJour(userInfo) {
         user: 'test',
         password: 'test',
         database: 'pictionnary',
-        port: 3306
+        port: 3307
     });
 
     connection.query("UPDATE users SET email='" + userInfo.email + "', password='" + userInfo.password + "', nom='" + userInfo.nom + "', prenom='" + userInfo.prenom + "', tel='" + userInfo.tel + "', website='" + userInfo.website + "', sexe='" + userInfo.sexe + "', birthdate='" + userInfo.birthdate + "', ville='" + userInfo.ville + "', taille=" + userInfo.taille + ", couleur='" + userInfo.couleur + "', profilepic='" + userInfo.profilepic + "' WHERE email='" + sess.email + "'", function (err, result) {
@@ -363,7 +425,7 @@ function envoyerDessin(userInfo) {
         user: 'test',
         password: 'test',
         database: 'pictionnary',
-        port: 3306
+        port: 3307
     });
 
     connection.query("INSERT INTO drawings (email, commands, picture, dest, text) VALUES ('" + sess.email + "','" + "test" + "','" + userInfo.picture + "','" + userInfo.dest + "','" + userInfo.mot + "')", function (err, result) {
@@ -383,7 +445,7 @@ function getProfil(username) {
         user: 'test',
         password: 'test',
         database: 'pictionnary',
-        port: 3306
+        port: 3307
     });
 
     connection.query("SELECT * FROM drawings WHERE dest='" + username + "'", function (err, rows, fields) {
@@ -401,3 +463,57 @@ function getProfil(username) {
         connection.end();
     });
 }
+
+function deleteUser(email) {
+    logger.info(email);
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'test',
+        password: 'test',
+        database: 'pictionnary',
+        port: 3307
+    });
+
+    connection.query("DELETE FROM users WHERE email='" + email + "'", function (err, rows, fields) {
+        if (!err) {
+            if (rows.length > 0) {
+                logger.info('Suppresion effectuée !');
+            } else {
+                res.render('login');
+            }
+        }
+        else {
+            logger.info('Erreur dans la suppresion !');
+        }
+        connection.end();
+    });
+}
+
+function deleteDrawing(email) {
+    logger.info(email);
+    var connection = mysql.createConnection({
+        host: 'localhost',
+        user: 'test',
+        password: 'test',
+        database: 'pictionnary',
+        port: 3307
+    });
+
+    // Il faut connaître l'ID (car clé primaire) du dessin pour pouvoir le supprimer
+    // Une requête SELECT pour récupérer l'ID ayant pour email, une autre pour celui ayant pour dest
+    // Les requêtes DELETE avec les ID respectif (emetteur, destinataire)
+    connection.query("DELETE FROM drawings WHERE email='" + email + "' OR dest='"+ email +"'", function (err, rows, fields) {
+        if (!err) {
+            if (rows.length > 0) {
+                logger.info('Suppresion effectuée !');
+            } else {
+                res.render('login');
+            }
+        }
+        else {
+            logger.info('Erreur dans la suppresion !');
+        }
+        connection.end();
+    });
+}
+

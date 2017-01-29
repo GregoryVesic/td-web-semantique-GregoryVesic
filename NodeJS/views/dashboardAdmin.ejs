@@ -3,7 +3,20 @@
 
 <h1>Dashboard Admin</h1>
 
-<div id = "dashboard">
-  <p>Gestion des profils et ID des Utilisateurs bientôt implémenté.</p>
+<p>Gestion des profils et ID des Utilisateurs bientôt implémenté.</p>
+
+<div id = "profil">
+  <b>Suppresion d'un profil</b>
+  <br />
+  <br />
+    <form method="post" action="/dashboardAdmin">
+      Email: <input type="text" name="email">
+      <br />
+      <br />
+      <input type="submit" name="btn" value="Supprimer utilisateur">
+      <form method="post" action="/dashboardAdmin2">
+        <input type="submit" name="btn2" value="Supprimer dessins">
+      </form>
+    </form>
 </div>
 <% include foot %>

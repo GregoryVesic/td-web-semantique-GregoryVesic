@@ -10,7 +10,7 @@
       </li>
       <li>
         <label for="email">E-mail :</label>
-        <input type="email" name="email" id="email" autofocus required placeholder="<%=email%>"/>
+        <input type="email" name="email" id="email" autofocus required value="<%=email%>"/>
         <span class="form_hint">Format attendu "name@something.com"</span>
       </li>
       <li>
@@ -38,19 +38,19 @@
       </li>
       <li>
         <label for="nom">Nom :</label>
-        <input type="text" name="nom" id="nom" required placeholder="<%=nom%>"/>
+        <input type="text" name="nom" id="nom" required value="<%=nom%>"/>
       </li>
       <li>
         <label for="prenom">Prénom :</label>
-        <input type="text" name="prenom" id="prenom" required placeholder="<%=prenom%>" />
+        <input type="text" name="prenom" id="prenom" required value="<%=prenom%>" />
       <li>
         <label for="tel">Téléphone :</label>
-        <input type="tel" name="tel" id="tel" placeholder="<%=tel%>"/>
+        <input type="tel" name="tel" id="tel" value="<%=tel%>"/>
 
       </li>
       <li>
         <label for="url">Site Web :</label>
-        <input type="website" name="website" id="url" placeholder="<%=website%>"/>
+        <input type="website" name="website" id="url" value="<%=website%>"/>
         <!-- non obligatoire -->
       </li>
       <li>
@@ -59,7 +59,7 @@
       </li>
       <li>
         <label for="birthdate">Date de naissance :</label>
-        <input type="date" name="birthdate" id="birthdate" placeholder="JJ/MM/AAAA" required onchange="computeAge()"/>
+        <input type="date" name="birthdate" id="birthdate" falue="<%=website%>" required onchange="computeAge()"/>
         <script>
             computeAge = function(e) {
                 try{
@@ -82,7 +82,7 @@
       </li>
       <li>
         <label for="ville">Ville :</label>
-        <input type="text" name="ville" id="ville" placeholder="<%=ville%>" />
+        <input type="text" name="ville" id="ville" value="<%=ville%>" />
         <!-- non obligatoire -->
 
       </li>
@@ -93,7 +93,7 @@
       </li>
       <li>
         <label for="color">Couleur préférée :</label>
-        <input type="color" id="couleur" name="couleur" value="#00000">
+        <input type="color" id="couleur" name="couleur" value="<%=couleur%>">
       </li>
       <li>
         <label for="profilepicfile">Photo de profil :</label>
